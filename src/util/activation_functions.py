@@ -4,7 +4,7 @@
 Activation functions which can be used within neurons.
 """
 
-from math import e
+from numpy import exp
 
 
 class Activation:
@@ -18,7 +18,8 @@ class Activation:
 
     @staticmethod
     def sigmoid(netOutput):
-        return 1/(1+e**(-1.0*netOutput))
+        # use e^x from numpy to avoid overflow
+        return 1/(1+exp(-1.0*netOutput))
 
     @staticmethod
     def tanh(netOutput):

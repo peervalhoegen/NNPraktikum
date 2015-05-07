@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import sys
+import logging
+
 import numpy as np
 
 from util.activation_functions import Activation
 from model.classifier import Classifier
 
-__author__ = "ABC XYZ"  # Adjust this when you copy the file
-__email__ = "ABC.XYZ@student.kit.edu"  # Adjust this when you copy the file
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
+                    level=logging.DEBUG,
+                    stream=sys.stdout)
 
 
 class LogisticRegression(Classifier):
@@ -43,12 +47,47 @@ class LogisticRegression(Classifier):
         # Initialize the weight vector with small values
         self.weight = 0.01*np.random.randn(self.trainingSet.input.shape[1])
 
-    def train(self):
-        """Train the Logistic Regression"""
-        # TODO: Here you have to implement the Logistic Regression Training
-        # Algorithm
-        # TODO: use self.trainingSet
-        # TODO: use self.validationSet
+    def train(self, verbose=True):
+        """Train the Logistic Regression.
+
+        Parameters
+        ----------
+        verbose : boolean
+            Print logging messages with validation accuracy if verbose is True.
+        """
+
+        from util.loss_functions import DifferentError
+        loss = DifferentError()
+
+        learned = False
+        iteration = 0
+
+        while not learned:
+            grad = 0
+            totalError = 0
+            for input, label in zip(self.trainingSet.input,
+                                    self.trainingSet.label):
+                output = self.fire(input)
+                # compute gradient
+                grad += -(label - output)*input
+
+                # compute recognizing error, not BCE
+                predictedLabel = self.classify(input)
+                error = loss.calculateError(label, predictedLabel)
+                totalError += error
+
+            self.updateWeights(grad)
+            totalError = abs(totalError)
+            
+            iteration += 1
+
+            if verbose:
+                logging.info("Epoch: %i; Error: %i", iteration, totalError)
+                
+
+            if totalError == 0 or iteration >= self.epochs:
+                # stop criteria is reached
+                learned = True
 
     def classify(self, testInstance):
         """Classify a single instance.
@@ -62,9 +101,7 @@ class LogisticRegression(Classifier):
         bool :
             True if the testInstance is recognized as a 7, False otherwise.
         """
-        # TODO: Here you have to implement the Logistic Regression Algorithm
-        # to classify a single instance
-        pass
+        return self.fire(testInstance) > 0.5
 
     def evaluate(self, test=None):
         """Evaluate a whole dataset.
@@ -72,7 +109,7 @@ class LogisticRegression(Classifier):
         Parameters
         ----------
         test : the dataset to be classified
-        if no test, the test set associated to the classifier will be used
+        if no test data, the test set associated to the classifier will be used
 
         Returns
         -------
@@ -84,6 +121,9 @@ class LogisticRegression(Classifier):
         # Once you can classify an instance, just use map for all of the test
         # set.
         return list(map(self.classify, test))
+
+    def updateWeights(self, grad):
+        self.weight -= self.learningRate*grad
 
     def fire(self, input):
         return Activation.sigmoid(np.dot(np.array(input), self.weight))
