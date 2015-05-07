@@ -6,7 +6,7 @@ from util.activation_functions import Activation
 from model.classifier import Classifier
 from model.logistic_regression import LogisticRegression
 
-__author__ = "ABC XYZ"  # Adjust this when you copy the file
+__author__ = "Juan, Timo und Lars"  # Adjust this when you copy the file
 __email__ = "ABC.XYZ@student.kit.edu"  # Adjust this when you copy the file
 
 
