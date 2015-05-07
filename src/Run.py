@@ -5,11 +5,19 @@ from data.mnist_seven import MNISTSeven
 from model.stupid_recognizer import StupidRecognizer
 from model.perceptron import Perceptron
 from model.logistic_regression import LogisticRegression
+from model.MLP import MLP
 from report.evaluator import Evaluator
 
 
 def main():
     data = MNISTSeven("../data/mnist_seven.csv", 3000, 1000, 1000)
+
+    m=MLP(data.trainingSet,
+          data.validationSet,
+          data.testSet)
+
+    exit()
+
     myStupidClassifier = StupidRecognizer(data.trainingSet,
                                           data.validationSet,
                                           data.testSet)
