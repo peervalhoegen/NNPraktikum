@@ -41,20 +41,19 @@ class Layer(object):
         # Notice the functional programming paradigms of Python + Numpy
         self.activationString = activation
         self.activation = Activation.getActivation(self.activationString)
-
+        self.derivation = Activation.getDerivative(self.activationString)
         self.nIn = nIn
         self.nOut = nOut
-
-        # Some handy properties of the layers
-        self.size = self.nOut
-        self.shape = self.weights.shape
-
+       
         # You can have better initialization here
         if weights is None:
             rns = np.random.RandomState(int(time.time()))
             self.weights = rns.uniform(size=(nOut, nIn + 1))
         else:
             self.weights = weights
+        # Some handy properties of the layers
+        self.size = self.nOut
+        self.shape = self.weights.shape
 
     def forward(self, input):
         """
@@ -72,7 +71,8 @@ class Layer(object):
         """
         # Change the following line to calculate the net output
         # Here is just an example to ensure you have correct shape of output
-        netOutput = np.full(shape=(1, self.nOut), 1)
+        #netOutput = np.full(shape=(1, self.nOut), 1)
+        netOutput = np.dot(self.weights,input)
 
         return self.activation(netOutput)
 
@@ -93,4 +93,5 @@ class Layer(object):
 
         # Here you have to compute the derivative values
         # See Activation class
-        pass
+        sigOut = self.forward(input)
+        return self.derivation(sigOut)
