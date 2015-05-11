@@ -24,7 +24,8 @@ class MultilayerPerceptron(Classifier):
             inputLayer = Layer(784, 100, weights=inputWeights)
             hiddenLayer = Layer(100, 50)
             outputLayer = LogisticLayer(50, 10)
-
+            
+            self.layers = []
             self.layers.append(inputLayer)
             self.layers.append(hiddenLayer)
             self.layers.append(outputLayer)
@@ -53,7 +54,10 @@ class MultilayerPerceptron(Classifier):
             a numpy array (1,nOut) containing the output of the output layer
         """
         # Here you have to propagate forward through the layers
-        pass
+        lastOutput = input
+        for layer in self.layers:
+            lastOutput = layer.forward(lastOutput)
+        return lastOutput
 
     def computeError(self, input, target):
         """
@@ -69,6 +73,7 @@ class MultilayerPerceptron(Classifier):
         ndarray :
             a numpy array (1,nOut) containing the output of the layer
         """
+        return target - self.feedForward(input)
 
     def updateWeights(self, input, target):
         """
@@ -84,6 +89,11 @@ class MultilayerPerceptron(Classifier):
         ndarray :
             a numpy array (1,nOut) containing the output of the layer
         """
+        error = self.computeError(input, target)
+        lastWeights = None
+        for layer in reversed(self.layers):
+            layer.updateWeights(input, lastWeights)
+            lastWeights = layer.weights
 
     def train(self, trainingSet, validationSet):
         # train procedures of the classifier

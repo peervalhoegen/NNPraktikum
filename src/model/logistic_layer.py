@@ -6,7 +6,7 @@ import numpy as np
 from util.activation_functions import Activation
 
 
-class Layer(object):
+class LogisticLayer(object):
     """
     A layer of perceptrons
 
@@ -72,12 +72,10 @@ class Layer(object):
         # Change the following line to calculate the net output
         # Here is just an example to ensure you have correct shape of output
         #netOutput = np.full(shape=(1, self.nOut), 1)
-#        print(np.array(input).shape)
         inputAndBias = np.append(input, 1.0)
         netOutput = np.dot(self.weights,inputAndBias)
-        self.lastOutput = self.activation(netOutput)
-        self.lastInput = inputAndBias
-        return self.lastOutput
+
+        return self.activation(netOutput)
 
     def computeDerivative(self, input):
         """
@@ -99,3 +97,5 @@ class Layer(object):
         sigOut = self.forward(input)
         return self.derivation(sigOut)
     
+    def updateWeights(self, input, weights):
+        

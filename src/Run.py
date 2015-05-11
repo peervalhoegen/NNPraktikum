@@ -1,22 +1,36 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import numpy as np
 from data.mnist_seven import MNISTSeven
 from model.stupid_recognizer import StupidRecognizer
 from model.perceptron import Perceptron
 from model.logistic_regression import LogisticRegression
-from model.MLP import MLP
+from model.mlp import MultilayerPerceptron
 from report.evaluator import Evaluator
+from data.data_set import DataSet
+from model.layer import Layer
+from model.logistic_layer import LogisticLayer
 
 
 def main():
-    data = MNISTSeven("../data/mnist_seven.csv", 3000, 1000, 1000)
-
-    m=MLP(data.trainingSet,
-          data.validationSet,
-          data.testSet)
-
+    inputLayer = Layer(2, 100)
+    hiddenLayer = Layer(100, 50)
+    outputLayer = LogisticLayer(50, 1)
+    
+    layers = []
+    layers.append(inputLayer)
+    layers.append(hiddenLayer)
+    layers.append(outputLayer)
+    m=MultilayerPerceptron(layers)
+    input=np.array([0,0])
+    #,[0,1],[1,0],[1,1]]
+    target=0
+    #[0,1,1,0]
+    print(m.computeError(input, target))
+    
     exit()
+    data = MNISTSeven("../data/mnist_seven.csv", 3000, 1000, 1000)
 
     myStupidClassifier = StupidRecognizer(data.trainingSet,
                                           data.validationSet,
