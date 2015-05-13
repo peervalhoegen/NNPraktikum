@@ -99,7 +99,7 @@ class MultilayerPerceptron(Classifier):
         """
 
 	self.layers[-1].error = self.computeError(input, target)
-	print "error in outputLayer " + str(self.layers[-1].error)
+	print "error in outputLayer " + self.layers[-1].error
         ds = self.layers[-1].error 
         for layer in reversed(self.layers):	    
             layer.updateWeights(ds, self.learningRate) #todo implement for outLayer where ds is ignored!

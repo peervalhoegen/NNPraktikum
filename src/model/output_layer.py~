@@ -91,7 +91,11 @@ class OutputLayer(Layer):
     def fire(self, input):
         return Activation.sigmoid(np.dot(np.array(input), self.weight))
 
+    def error(target)
+        self.target = target
+        return target - output
+
     def updateWeights(ds, learningRate):
-        self.delta = computeDerivative() * self.error
+        self.delta = computeDerivative() * error(self.target)
 	self.weights += learningRate * np.outer(self.delta, self.lastInput)
 

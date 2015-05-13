@@ -30,7 +30,7 @@ class DataSet(object):
         self.label = data[:, 0]
 	print('label in dataset' + str(self.label))
         self.oneHot = oneHot
-        #self.targetDigit = targetDigit
+        self.targetDigit = targetDigit
 
         # Transform all labels which is not the targetDigit to False,
         # The label of targetDigit will be True,

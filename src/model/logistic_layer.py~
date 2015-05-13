@@ -98,4 +98,4 @@ class LogisticLayer(object):
         return self.derivation(sigOut)
     
     def updateWeights(self, input, weights):
-        pass
+        

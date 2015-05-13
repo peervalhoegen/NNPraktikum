@@ -71,8 +71,8 @@ def main():
     pred = myLRClassifier.evaluate()
     print('pred' + str(pred))
     eval = Evaluator()
-    #eval.printConfusionMatrix(data.testSet, pred)
-    #eval.printClassificationResult(data.testSet, pred, target_names)
+    eval.printConfusionMatrix(data.testSet, pred)
+    eval.printClassificationResult(data.testSet, pred, target_names)
 
 if __name__ == '__main__':
     main()

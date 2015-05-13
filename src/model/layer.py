@@ -74,12 +74,14 @@ class Layer(object):
         #netOutput = np.full(shape=(1, self.nOut), 1)
 #        print(np.array(input).shape)
         inputAndBias = np.append(input, 1.0)
+
         netOutput = np.dot(self.weights,inputAndBias)
+#	print("netOutput:" + str(netOutput.shape) + "= self.weights: " + str(self.weights.shape) + " * " + "= inputAndBias: " + str(inputAndBias.shape)  )
         self.lastOutput = self.activation(netOutput)
         self.lastInput = inputAndBias
         return self.lastOutput
 
-    def computeDerivative(self, input):
+    def computeDerivative(self):  #, input):
         """
         Compute the derivative
 
@@ -96,6 +98,14 @@ class Layer(object):
 
         # Here you have to compute the derivative values
         # See Activation class
-        sigOut = self.forward(input)
-        return self.derivation(sigOut)
+        #sigOut = self.forward(input)
+        return self.derivation(self.lastOutput)#sigOut)
+
+    def updateWeights(self, ds, learningRate):
+#	print("ds:" + str(ds.shape))
+	derivative = self.computeDerivative()
+#	print("der:" + str(derivative.shape))
+        self.delta = derivative * ds
+	self.weights += learningRate * np.outer(self.delta, self.lastInput)
+
     

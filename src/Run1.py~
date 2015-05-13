@@ -3,7 +3,6 @@
 
 import numpy as np
 from data.mnist_seven import MNISTSeven
-from data.xor import Xor
 from model.stupid_recognizer import StupidRecognizer
 from model.perceptron import Perceptron
 from model.logistic_regression import LogisticRegression
@@ -15,15 +14,13 @@ from model.logistic_layer import LogisticLayer
 
 
 def main():
-#    inputLayer = Layer(2, 2)
-#    hiddenLayer1 = Layer(2, 2)
-#    hiddenLayer2 = Layer(50, 50)    
-    outputLayer = Layer(2, 1)
+    inputLayer = Layer(2, 100)
+    hiddenLayer = Layer(100, 50)
+    outputLayer = Layer(50, 1)
     
     layers = []
-#    layers.append(inputLayer)
-#    layers.append(hiddenLayer1)
-#    layers.append(hiddenLayer2)
+    layers.append(inputLayer)
+    layers.append(hiddenLayer)
     layers.append(outputLayer)
  #   m=MultilayerPerceptron(layers)
  #   input=np.array([0,0])
@@ -34,7 +31,7 @@ def main():
  #   m.updateWeights(input,target)
     
 
-    data = Xor("../data/xor.csv", 4, 4, 4)
+    data = MNISTSeven("../data/xor.csv", 4, 4, 4)
 
     #myStupidClassifier = StupidRecognizer(data.trainingSet,
     #                                      data.validationSet,
@@ -56,23 +53,21 @@ def main():
 					layers,
 					outputTask='Regression',
 			                inputWeights=None,
-                                        learningRate=1,
-                                        epochs=300)
+                                        learningRate=0.005,
+                                        epochs=30)
 
 
    
 
-    print("\nMultilayerPerceptron has been training..")
+    print("\nLogistic Regression has been training..")
     myLRClassifier.train()
     print("Done..")
 
     
 
-    pred = myLRClassifier.evaluate()
-    print('pred' + str(pred))
-    eval = Evaluator()
-    #eval.printConfusionMatrix(data.testSet, pred)
-    #eval.printClassificationResult(data.testSet, pred, target_names)
+    lrPred = myLRClassifier.evaluate()
+    
+    
 
 if __name__ == '__main__':
     main()
