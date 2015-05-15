@@ -99,7 +99,7 @@ class MultilayerPerceptron(Classifier):
         """
 
 	self.layers[-1].error = self.computeError(input, target)
-	print "error in outputLayer " + self.layers[-1].error
+	#print "error in outputLayer " + str(self.layers[-1].error)
         ds = self.layers[-1].error 
         for layer in reversed(self.layers):	    
             layer.updateWeights(ds, self.learningRate) #todo implement for outLayer where ds is ignored!
@@ -113,14 +113,15 @@ class MultilayerPerceptron(Classifier):
 	print('trainingSet.label: '+ str(self.trainingSet.label))
         # train procedures of the
 	for i in range(self.epochs):
+	        print("start of epoch "+str(i))
                 foo = zip(self.trainingSet.input, self.trainingSet.label)
 		random.shuffle(foo)
 		for input, target in foo: 
-			print("input:" + str(input))
+			#print("input:" + str(input))
 			self.updateWeights(input, target)
-			print "weights after update:" 
-                        for i,l in enumerate(self.layers):
-				print " layer"+str(i)+": " +str(l.weights)
+			#print "weights after update:" 
+                        #for i,l in enumerate(self.layers):
+			#	print " layer"+str(i)+": " +str(l.weights)
 
 		#eval fuer validation?
         

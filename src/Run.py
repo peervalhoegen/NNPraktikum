@@ -34,8 +34,8 @@ def main():
  #   m.updateWeights(input,target)
     
 
-    data = Xor("../data/xor.csv", 4, 4, 4)
-
+#    data = Xor("../data/xor.csv", 4, 4, 4)
+    data = MNISTSeven("../data/mnist_seven.csv", 3000, 1000, 1000)
     #myStupidClassifier = StupidRecognizer(data.trainingSet,
     #                                      data.validationSet,
     #                                      data.testSet)
@@ -53,11 +53,11 @@ def main():
     myLRClassifier = MultilayerPerceptron(data.trainingSet,
                                         data.validationSet,
                                         data.testSet,
-					layers,
-					outputTask='Regression',
+					#layers,
+#					outputTask='Regression',
 			                inputWeights=None,
                                         learningRate=1,
-                                        epochs=300)
+                                        epochs=19)
 
 
    

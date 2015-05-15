@@ -26,7 +26,7 @@ class DataSet(object):
     def __init__(self, data, oneHot=False, targetDigit='7'):
 
         # The label of the digits is always the first fields
-        self.input = data[:, 1:]
+        self.input = 1.0*data[:, 1:]/255.0
         self.label = data[:, 0]
 	print('label in dataset' + str(self.label))
         self.oneHot = oneHot

@@ -48,7 +48,8 @@ class Layer(object):
         # You can have better initialization here
         if weights is None:
             rns = np.random.RandomState(int(time.time()))
-            self.weights = rns.uniform(size=(nOut, nIn + 1))
+            self.weights = rns.uniform(-0.01,  0.01, size=(nOut, nIn + 1))
+            #self.weights = np.ones((nOut, nIn + 1))/1000
         else:
             self.weights = weights
         # Some handy properties of the layers
@@ -74,6 +75,8 @@ class Layer(object):
         #netOutput = np.full(shape=(1, self.nOut), 1)
 #        print(np.array(input).shape)
         inputAndBias = np.append(input, 1.0)
+        #print("input" + str(inputAndBias))
+        #print("weights " +str(self.weights))
 
         netOutput = np.dot(self.weights,inputAndBias)
 #	print("netOutput:" + str(netOutput.shape) + "= self.weights: " + str(self.weights.shape) + " * " + "= inputAndBias: " + str(inputAndBias.shape)  )

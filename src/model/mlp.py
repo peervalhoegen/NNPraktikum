@@ -64,6 +64,7 @@ class MultilayerPerceptron(Classifier):
         # Here you have to propagate forward through the layers
         lastOutput = input
         for layer in self.layers:
+            #print("layer " + str(i))
             lastOutput = layer.forward(lastOutput)
         return lastOutput
 
@@ -81,7 +82,12 @@ class MultilayerPerceptron(Classifier):
         ndarray :
             a numpy array (1,nOut) containing the output of the layer
         """
-        return target - self.feedForward(input)
+        if self.outputTask == 'classification':
+                myTarget = [0]*target + [1] + [0]*(self.layers[-1].nOut -target-1)
+        else:
+                myTarget = target        
+        return myTarget - self.feedForward(input)
+        
 
     def updateWeights(self, input, target):
         """
@@ -99,7 +105,7 @@ class MultilayerPerceptron(Classifier):
         """
 
 	self.layers[-1].error = self.computeError(input, target)
-	print "error in outputLayer " + str(self.layers[-1].error)
+	#print "error in outputLayer " + str(self.layers[-1].error)
         ds = self.layers[-1].error 
         for layer in reversed(self.layers):	    
             layer.updateWeights(ds, self.learningRate) #todo implement for outLayer where ds is ignored!
@@ -113,21 +119,29 @@ class MultilayerPerceptron(Classifier):
 	print('trainingSet.label: '+ str(self.trainingSet.label))
         # train procedures of the
 	for i in range(self.epochs):
+	        print("start of epoch "+str(i))
                 foo = zip(self.trainingSet.input, self.trainingSet.label)
-		random.shuffle(foo)
+		#random.shuffle(foo)
 		for input, target in foo: 
-			print("input:" + str(input))
+			#print("input:" + str(input))
 			self.updateWeights(input, target)
-			print "weights after update:" 
-                        for i,l in enumerate(self.layers):
-				print " layer"+str(i)+": " +str(l.weights)
+			#print "weights after update:" 
+                        #for i,l in enumerate(self.layers):
+			#	print " layer"+str(i)+": " +str(l.weights)
 
 		#eval fuer validation?
         
 
     def classify(self, testInstance):
         # classify an instance given the model of the classifier
-	print "classify()-> "+ str(self.feedForward(testInstance))
+        result = self.feedForward(testInstance)
+        if self.outputTask == "classification":
+            index =result.argmax()
+            return index
+        else:
+            return result
+        
+	print "classify()-> "+ str()
 	return (self.feedForward(testInstance))[0]
         
 
