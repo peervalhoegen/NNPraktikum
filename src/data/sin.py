@@ -5,7 +5,7 @@ from numpy.random import shuffle
 from data.Xor_Data_set import Xor_DataSet
 
 
-class Xor(object):
+class Sin(object):
     """
     Small subset (5000 instances) of MNIST data to recognize the digit 7
 
@@ -41,16 +41,20 @@ class Xor(object):
         """Load the data."""
         print("Loading data from " + dataPath + "...")
 
-        data = np.genfromtxt(dataPath, delimiter=",", dtype="uint8")
-
+#        data = np.genfromtxt(dataPath, delimiter=",", dtype="uint8")
+        x = np.linspace(0,100,10000);
+        y = np.sin(x)/2 + 0.5
+        data = np.zeros((10000,2))
+        data[:,0] = y
+        data[:,1] = x        
         # The last numTest instances ALWAYS comprise the test set.
-        train, test = data[:numTrain+numValid], data[numTrain+numValid:]
+        train, test = data[:numTrain+numValid], data[:numTest]
         #shuffle(train)
-
+        
         train, valid = train[:numTrain], train[numTrain:]
-	print("train" + str(train))
-	print("valid" + str(valid))
-	print("test" + str(test))
+#	print("train" + str(train))
+#	print("valid" + str(valid))
+#	print("test" + str(test))
 
         self.trainingSet = Xor_DataSet(train)
         self.validationSet = Xor_DataSet(valid)

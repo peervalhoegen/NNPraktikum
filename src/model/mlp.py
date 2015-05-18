@@ -1,11 +1,11 @@
 
 import time
-
+import math
 import numpy as np
 
 from util.activation_functions import Activation
 from model.layer import Layer
-#from model.logistic_layer import LogisticLayer
+# from model.logistic_layer import LogisticLayer
 from model.classifier import Classifier
 import random
 
@@ -15,13 +15,13 @@ class MultilayerPerceptron(Classifier):
     A multilayer perceptron used for classification
     """
 
-    def __init__(self,  train, valid, test, layers=None, outputTask='classification',
+    def __init__(self, train, valid, test, layers=None, outputTask='classification',
                  inputWeights=None, learningRate=0.01, epochs=50):
 
         # Build up the network from specific layers
         # Here is an example
         # Should read those configuration from the command line or config file
-	self.learningRate = learningRate
+        self.learningRate = learningRate
         self.epochs = epochs
 
         self.trainingSet = train
@@ -64,7 +64,7 @@ class MultilayerPerceptron(Classifier):
         # Here you have to propagate forward through the layers
         lastOutput = input
         for layer in self.layers:
-            #print("layer " + str(i))
+            # print("layer " + str(i))
             lastOutput = layer.forward(lastOutput)
         return lastOutput
 
@@ -83,7 +83,7 @@ class MultilayerPerceptron(Classifier):
             a numpy array (1,nOut) containing the output of the layer
         """
         if self.outputTask == 'classification':
-                myTarget = [0]*target + [1] + [0]*(self.layers[-1].nOut -target-1)
+                myTarget = [0] * target + [1] + [0] * (self.layers[-1].nOut - target - 1)
         else:
                 myTarget = target        
         return myTarget - self.feedForward(input)
@@ -104,45 +104,45 @@ class MultilayerPerceptron(Classifier):
             a numpy array (1,nOut) containing the output of the layer
         """
 
-	self.layers[-1].error = self.computeError(input, target)
-	#print "error in outputLayer " + str(self.layers[-1].error)
+        self.layers[-1].error = self.computeError(input, target)
+        # print "error in outputLayer " + str(self.layers[-1].error)
         ds = self.layers[-1].error 
         for layer in reversed(self.layers):	    
-            layer.updateWeights(ds, self.learningRate) #todo implement for outLayer where ds is ignored!
-            ds = np.dot(layer.delta,layer.weights)
- #	    print("ds:" + str(ds.shape) + "=dot( layer.delta: " + str(layer.delta.shape) + " , " + " layer.weights: " + str(layer.weights.shape) +")" )
-	    ds = ds[:-1]        #remove ds for 'imaginary' bias-input.
+            layer.updateWeights(ds, self.learningRate)  # todo implement for outLayer where ds is ignored!
+            ds = np.dot(layer.delta, layer.weights)
+            # 	    print("ds:" + str(ds.shape) + "=dot( layer.delta: " + str(layer.delta.shape) + " , " + " layer.weights: " + str(layer.weights.shape) +")" )
+            ds = ds[:-1]  # remove ds for 'imaginary' bias-input.
 
 
     def train(self):
-	print('trainingSet.input: '+ str(self.trainingSet.input))
-	print('trainingSet.label: '+ str(self.trainingSet.label))
+#        print('trainingSet.input: ' + str(self.trainingSet.input))
+#       print('trainingSet.label: ' + str(self.trainingSet.label))
         # train procedures of the
-	for i in range(self.epochs):
-	        print("start of epoch "+str(i))
-                foo = zip(self.trainingSet.input, self.trainingSet.label)
-		#random.shuffle(foo)
-		for input, target in foo: 
-			#print("input:" + str(input))
-			self.updateWeights(input, target)
-			#print "weights after update:" 
-                        #for i,l in enumerate(self.layers):
-			#	print " layer"+str(i)+": " +str(l.weights)
+        for i in range(self.epochs):
+            #print("start of epoch "+str(i))
+            foo = zip(self.trainingSet.input, self.trainingSet.label)
+            # random.shuffle(foo)
+            for input, target in foo: 
+                # print("input:" + str(input))
+                self.updateWeights(input, target)
+                # print "weights after update:" 
+                        # for i,l in enumerate(self.layers):
+                        # 	print " layer"+str(i)+": " +str(l.weights)
 
-		#eval fuer validation?
+                # eval fuer validation?
         
 
     def classify(self, testInstance):
         # classify an instance given the model of the classifier
         result = self.feedForward(testInstance)
         if self.outputTask == "classification":
-            index =result.argmax()
+            index = result.argmax()
             return index
         else:
             return result
         
-	print "classify()-> "+ str()
-	return (self.feedForward(testInstance))[0]
+        print "classify()-> " + str()
+        return (self.feedForward(testInstance))[0]
         
 
    
@@ -163,6 +163,6 @@ class MultilayerPerceptron(Classifier):
             test = self.testSet.input
         # Once you can classify an instance, just use map for all of the test
         # set.
-	print('test' + str(test))
-        return list(map(self.classify, test))
+        print('test' + str(test))
+        return list([test, list(map(self.classify, test))])
 

@@ -3,7 +3,7 @@
 
 import numpy as np
 from data.mnist_seven import MNISTSeven
-from data.xor import Xor
+from data.sin import Sin
 from model.stupid_recognizer import StupidRecognizer
 from model.perceptron import Perceptron
 from model.logistic_regression import LogisticRegression
@@ -12,19 +12,19 @@ from report.evaluator import Evaluator
 from data.data_set import DataSet
 from model.layer import Layer
 from model.logistic_layer import LogisticLayer
-
-
+import matplotlib.pyplot as plt
+from model.sin_Out_Layer import Sin_Out_Layer 
 def main():
-    numInp = 2
+    numInp = 1
     numOut = 1
-    numNeuronInp = 2000
-    numHiddenLayer = 1
-    numNeuronHidden = 60
-    epochs = 50
+    numNeuronInp =2000
+    numHiddenLayer = 2
+    numNeuronHidden = 100
+    epochs = 10
     inputLayer = Layer(numInp, numNeuronInp)
     hiddenLayer1 = Layer(numNeuronInp, numNeuronHidden)
     hiddenLayer = Layer(numNeuronHidden,numNeuronHidden )
-    outputLayer = Layer(numNeuronHidden, 1)
+    outputLayer = Sin_Out_Layer(numNeuronHidden, 1)#, activation = 'linear')
     layers = []
     layers.append(inputLayer)
     layers.append(hiddenLayer1)
@@ -41,7 +41,7 @@ def main():
  #   m.updateWeights(input,target)
     
 
-    data = Xor("../data/xor.csv", 4, 4, 4)
+    data = Sin("", 1000, 100,10000)
 #    data = MNISTSeven("../data/mnist_seven.csv", 3000, 1000, 1000)
     #myStupidClassifier = StupidRecognizer(data.trainingSet,
     #                                      data.validationSet,
@@ -63,7 +63,7 @@ def main():
 					layers,
 					outputTask='Regression',
 			                inputWeights=None,
-                                        learningRate=0.5,
+                                        learningRate=2,
                                         epochs=epochs)
 
 
@@ -76,8 +76,10 @@ def main():
     
 
     pred = myLRClassifier.evaluate()
-    print('pred' + str(pred))
-    eval = Evaluator()
+    plt.plot(pred[0],pred[1])
+    plt.show()
+    #print('pred' + str(pred))
+    #eval = Evaluator()
     #eval.printConfusionMatrix(data.testSet, pred)
     #eval.printClassificationResult(data.testSet, pred, target_names)
 

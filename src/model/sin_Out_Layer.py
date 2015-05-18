@@ -1,12 +1,12 @@
 
 import time
-import math
+
 import numpy as np
 
 from util.activation_functions import Activation
+from layer import Layer
 
-
-class Layer(object):
+class Sin_Out_Layer(Layer):
     """
     A layer of perceptrons
 
@@ -105,10 +105,10 @@ class Layer(object):
         return self.derivation(self.lastOutput)#sigOut)
 
     def updateWeights(self, ds, learningRate):
-        #	print("ds:" + str(ds.shape))
+#	print("ds:" + str(ds.shape))
         derivative = self.computeDerivative()
-        #	print("der:" + str(derivative.shape))
+#	print("der:" + str(derivative.shape))
         self.delta = derivative * ds
         self.weights += learningRate * np.outer(self.delta, self.lastInput)
-            
+
     
