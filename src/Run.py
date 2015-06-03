@@ -65,7 +65,11 @@ def main():
 			                inputWeights=None,
                                         learningRate=0.5,
                                         epochs=epochs)
-
+					#layers,
+					#outputTask='Regression',
+			                #inputWeights=None,
+                                        #learningRate=1,
+                                        #epochs=30)
 
    
 

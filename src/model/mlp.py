@@ -29,13 +29,13 @@ class MultilayerPerceptron(Classifier):
         self.testSet = test
 
         if layers is None:
-            inputLayer = Layer(784, 100, weights=inputWeights)
-            hiddenLayer = Layer(100, 50)
-            outputLayer = Layer(50, 10)
+            inputLayer = Layer(2, 2, weights=inputWeights)
+            hiddenLayer = Layer(2, 2)
+            outputLayer = Layer(2, 1)
             
             self.layers = []
-            self.layers.append(inputLayer)
-            self.layers.append(hiddenLayer)
+#             self.layers.append(inputLayer)
+#             self.layers.append(hiddenLayer)
             self.layers.append(outputLayer)
         else:
             self.layers = layers
@@ -85,8 +85,16 @@ class MultilayerPerceptron(Classifier):
         if self.outputTask == 'classification':
                 myTarget = [0] * target + [1] + [0] * (self.layers[-1].nOut - target - 1)
         else:
-                myTarget = target        
-        return myTarget - self.feedForward(input)
+                myTarget = target
+        networkOutput = self.feedForward(input)
+        outputNodes = self.layers[-1].shape[0]
+        if outputNodes > 1:
+            error = 0
+            for index in range(outputNodes):
+                error += np.power((myTarget[index] - networkOutput[index]), 2)
+            return error / 2
+        else:
+            return np.power((myTarget - networkOutput), 2) / 2
         
 
     def updateWeights(self, input, target):
@@ -118,18 +126,24 @@ class MultilayerPerceptron(Classifier):
 #        print('trainingSet.input: ' + str(self.trainingSet.input))
 #       print('trainingSet.label: ' + str(self.trainingSet.label))
         # train procedures of the
-        for i in range(self.epochs):
-            #print("start of epoch "+str(i))
-            foo = zip(self.trainingSet.input, self.trainingSet.label)
-            # random.shuffle(foo)
-            for input, target in foo: 
-                # print("input:" + str(input))
-                self.updateWeights(input, target)
-                # print "weights after update:" 
-                        # for i,l in enumerate(self.layers):
-                        # 	print " layer"+str(i)+": " +str(l.weights)
+	for i in range(self.epochs):
+	        print("start of epoch "+str(i))
+                foo = zip(self.trainingSet.input, self.trainingSet.label)
+		#random.shuffle(foo)
+		for input, target in foo: 
+			#print("input:" + str(input))
+			self.updateWeights(input, target)
+			#print "weights after update:" 
+                        #for i,l in enumerate(self.layers):
+			#	print " layer"+str(i)+": " +str(l.weights)
 
-                # eval fuer validation?
+                totalError = 0
+                for input, target in foo:
+                        totalError += self.computeError(input, target)
+                
+                print("Total error: " + str(totalError))                        
+                
+		#eval fuer validation?
         
 
     def classify(self, testInstance):
