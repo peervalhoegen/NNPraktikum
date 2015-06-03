@@ -17,10 +17,10 @@ from model.sin_Out_Layer import Sin_Out_Layer
 def main():
     numInp = 1
     numOut = 1
-    numNeuronInp =20
+    numNeuronInp =40
     numHiddenLayer = 1
-    numNeuronHidden = 1
-    epochs = 50000
+    numNeuronHidden =10 
+    epochs =100000
     inputLayer = Layer(numInp, numNeuronInp)
     hiddenLayer1 = Layer(numNeuronInp, numNeuronHidden)
     hiddenLayer = Layer(numNeuronHidden,numNeuronHidden )
@@ -63,7 +63,7 @@ def main():
 					layers,
 					outputTask='Regression',
 			                inputWeights=None,
-                                        learningRate=0.25,
+                                        learningRate=0.005,
                                         epochs=epochs)
 
 

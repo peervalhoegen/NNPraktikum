@@ -94,8 +94,8 @@ class MultilayerPerceptron(Classifier):
                 error += np.power((myTarget[index] - networkOutput[index]), 2)
             return error / 2
         else:
-            return np.power((myTarget - networkOutput), 2) / 2
-        
+            #return np.power((myTarget - networkOutput), 2) / 2
+            return myTarget - networkOutput
 
     def updateWeights(self, input, target):
         """
@@ -139,7 +139,7 @@ class MultilayerPerceptron(Classifier):
 
                 totalError = 0
                 for input, target in foo:
-                        totalError += self.computeError(input, target)
+                        totalError += abs(self.computeError(input, target))
                 
                 print("Total error: " + str(totalError))                        
                 
