@@ -48,7 +48,7 @@ class Layer(object):
         # You can have better initialization here
         if weights is None:
             rns = np.random.RandomState(int(time.time()))
-            self.weights = rns.uniform(-0.1,  0.1, size=(nOut, nIn + 1))
+            self.weights = rns.uniform(-10,  10, size=(nOut, nIn + 1))
             #self.weights = np.ones((nOut, nIn + 1))/1000
         else:
             self.weights = weights

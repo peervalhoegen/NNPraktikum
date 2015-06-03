@@ -17,10 +17,10 @@ from model.sin_Out_Layer import Sin_Out_Layer
 def main():
     numInp = 1
     numOut = 1
-    numNeuronInp =2000
-    numHiddenLayer = 2
-    numNeuronHidden = 100
-    epochs = 10
+    numNeuronInp =20
+    numHiddenLayer = 1
+    numNeuronHidden = 1
+    epochs = 50000
     inputLayer = Layer(numInp, numNeuronInp)
     hiddenLayer1 = Layer(numNeuronInp, numNeuronHidden)
     hiddenLayer = Layer(numNeuronHidden,numNeuronHidden )
@@ -41,7 +41,7 @@ def main():
  #   m.updateWeights(input,target)
     
 
-    data = Sin("", 1000, 100,10000)
+    data = Sin("", 100, 100,10000)
 #    data = MNISTSeven("../data/mnist_seven.csv", 3000, 1000, 1000)
     #myStupidClassifier = StupidRecognizer(data.trainingSet,
     #                                      data.validationSet,
@@ -63,7 +63,7 @@ def main():
 					layers,
 					outputTask='Regression',
 			                inputWeights=None,
-                                        learningRate=2,
+                                        learningRate=0.25,
                                         epochs=epochs)
 
 

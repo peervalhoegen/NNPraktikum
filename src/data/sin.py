@@ -42,7 +42,7 @@ class Sin(object):
         print("Loading data from " + dataPath + "...")
 
 #        data = np.genfromtxt(dataPath, delimiter=",", dtype="uint8")
-        x = np.linspace(0,100,10000);
+        x = np.linspace(0,1000,10000);
         y = np.sin(x)/2 + 0.5
         data = np.zeros((10000,2))
         data[:,0] = y
