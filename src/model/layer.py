@@ -47,8 +47,9 @@ class Layer(object):
        
         # You can have better initialization here
         if weights is None:
+            time.sleep(1)
             rns = np.random.RandomState(int(time.time()))
-            self.weights = rns.uniform(-0.01,  0.01, size=(nOut, nIn + 1))
+            self.weights = rns.uniform(-0.5,  0.5, size=(nOut, nIn + 1))
             #self.weights = np.ones((nOut, nIn + 1))/1000
         else:
             self.weights = weights
@@ -109,6 +110,7 @@ class Layer(object):
 	derivative = self.computeDerivative()
 #	print("der:" + str(derivative.shape))
         self.delta = derivative * ds
-	self.weights += learningRate * np.outer(self.delta, self.lastInput)
+        deltaWeight = learningRate * np.outer(self.delta, self.lastInput)
+	self.weights += deltaWeight
 
     
