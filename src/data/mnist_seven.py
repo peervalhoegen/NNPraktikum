@@ -44,13 +44,13 @@ class MNISTSeven(object):
         data = np.genfromtxt(dataPath, delimiter=",", dtype="uint8")
 
         # The last numTest instances ALWAYS comprise the test set.
-        train, test = data[:numTrain+numValid], data[numTrain+numValid:]
+        train, test = data[:numTrain+numValid], data[numTrain+numValid:numTrain+numValid+numTest]
         shuffle(train)
 
         train, valid = train[:numTrain], train[numTrain:]
 
-        self.trainingSet = DataSet(train)
-        self.validationSet = DataSet(valid)
-        self.testSet = DataSet(test)
+        self.trainingSet = DataSet(train,True)
+        self.validationSet = DataSet(valid,True)
+        self.testSet = DataSet(test,True)
 
         print("Data loaded.")

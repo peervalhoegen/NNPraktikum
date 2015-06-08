@@ -43,7 +43,8 @@ class MultilayerPerceptron(Classifier):
         self.outputTask = outputTask  # Either classification or regression
         self.learningRate = learningRate
         self.epochs = epochs
-
+	self.totalError = np.inf
+	
     def getLayer(self, layerIndex):
         return self.layers[layerIndex]
 
@@ -88,14 +89,14 @@ class MultilayerPerceptron(Classifier):
                 myTarget = target
         networkOutput = self.feedForward(input)
         outputNodes = self.layers[-1].shape[0]
-        if outputNodes > 1:
-            error = 0
-            for index in range(outputNodes):
-                error += np.power((myTarget[index] - networkOutput[index]), 2)
-            return error / 2
-        else:
-            #return np.power((myTarget - networkOutput), 2) / 2
-            return myTarget - networkOutput
+        #if outputNodes > 1:
+        #    error = 0
+        #    for index in range(outputNodes):
+        #        error += np.power((myTarget[index] - networkOutput[index]), 2)
+        #    return error / 2
+        #else:
+        #    return np.power((myTarget - networkOutput), 2) / 2
+        return myTarget - networkOutput
 
     def updateWeights(self, input, target):
         """
@@ -122,6 +123,7 @@ class MultilayerPerceptron(Classifier):
             ds = ds[:-1]  # remove ds for 'imaginary' bias-input.
 
 
+
     def train(self):
 #        print('trainingSet.input: ' + str(self.trainingSet.input))
 #       print('trainingSet.label: ' + str(self.trainingSet.label))
@@ -138,13 +140,18 @@ class MultilayerPerceptron(Classifier):
 			#	print " layer"+str(i)+": " +str(l.weights)
 
                 totalError = 0
-                for input, target in foo:
-                        totalError += abs(self.computeError(input, target))
+                #for input, target in foo:
+                totalError += abs(self.computeError(input, target))
                 
-                print("Total error: " + str(totalError))                        
-                
+                print("Total error: " + str(totalError))                        	     
+		print("learning rate:" + str(self.learningRate))
 		#eval fuer validation?
-        
+                if (totalError - self.totalError).any >0: 
+			self.learningRate *= 0.8
+		#else:
+		#	self.learningRate *= 1-(i-1.0)/(self.epochs*50)
+
+		self.totalError =   totalError
 
     def classify(self, testInstance):
         # classify an instance given the model of the classifier
@@ -177,6 +184,6 @@ class MultilayerPerceptron(Classifier):
             test = self.testSet.input
         # Once you can classify an instance, just use map for all of the test
         # set.
-        print('test' + str(test))
-        return list([test, list(map(self.classify, test))])
+        print('test' + str(self.testSet.label))
+        return  list(map(self.classify, test))
 

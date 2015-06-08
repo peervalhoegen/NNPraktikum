@@ -18,18 +18,21 @@ def main():
     numInp = 1
     numOut = 1
     numNeuronInp =40
-    numHiddenLayer = 1
+    numHiddenLayer =1 
     numNeuronHidden =10 
-    epochs =100000
+    epochs =2000
     inputLayer = Layer(numInp, numNeuronInp)
-    hiddenLayer1 = Layer(numNeuronInp, numNeuronHidden)
-    hiddenLayer = Layer(numNeuronHidden,numNeuronHidden )
-    outputLayer = Sin_Out_Layer(numNeuronHidden, 1)#, activation = 'linear')
     layers = []
-    layers.append(inputLayer)
-    layers.append(hiddenLayer1)
-    for i in range(numHiddenLayer-1):
-        layers.append(hiddenLayer)
+    layers.append(inputLayer)  
+    if numHiddenLayer == 0:
+	    outputLayer = Layer(numNeuronInp,numOut)
+    else:
+	    hiddenLayer1 = Layer(numNeuronInp, numNeuronHidden)
+	    hiddenLayer = Layer(numNeuronHidden,numNeuronHidden )
+	    outputLayer = Layer(numNeuronHidden, 1)#, activation = 'linear')
+	    layers.append(hiddenLayer1)
+	    for i in range(numHiddenLayer-1):
+		layers.append(hiddenLayer)
     layers.append(outputLayer)
 
  #   m=MultilayerPerceptron(layers)
@@ -41,7 +44,7 @@ def main():
  #   m.updateWeights(input,target)
     
 
-    data = Sin("", 100, 100,10000)
+    data = Sin("", 100, 100,200)
 #    data = MNISTSeven("../data/mnist_seven.csv", 3000, 1000, 1000)
     #myStupidClassifier = StupidRecognizer(data.trainingSet,
     #                                      data.validationSet,
@@ -63,7 +66,7 @@ def main():
 					layers,
 					outputTask='Regression',
 			                inputWeights=None,
-                                        learningRate=0.005,
+                                        learningRate=0.5,
                                         epochs=epochs)
 
 

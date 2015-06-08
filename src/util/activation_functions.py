@@ -61,8 +61,7 @@ class Activation:
     @staticmethod
     def softmax(netOutput):
         # Here you have to code the softmax function
-        pass
-
+        return exp(netOutput)/sum(exp(netOutput)) 
     @staticmethod
     def getActivation(str):
         """
@@ -97,6 +96,8 @@ class Activation:
             return Activation.rectifiedPrime
         elif str == 'linear':
             return Activation.identityPrime
+	elif str == 'softmax':
+	    return Activation.sigmoidPrime		
         else:
             raise ValueError('Cannot get the derivative of'
                              ' the activation function: ' + str)
