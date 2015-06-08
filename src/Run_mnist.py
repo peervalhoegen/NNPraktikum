@@ -20,7 +20,7 @@ def main():
     numNeuronInp =200
     numHiddenLayer =1
     numNeuronHidden =30
-    epochs =30
+    epochs =10
     inputLayer = Layer(numInp, numNeuronInp)
     hiddenLayer1 = Layer(numNeuronInp, numNeuronHidden)
     hiddenLayer = Layer(numNeuronHidden,numNeuronHidden )

@@ -140,13 +140,13 @@ class MultilayerPerceptron(Classifier):
 			#	print " layer"+str(i)+": " +str(l.weights)
 
                 totalError = 0
-                #for input, target in foo:
-                totalError += abs(self.computeError(input, target))
+                for input, target in foo:
+                	totalError += abs(self.computeError(input, target))
                 
                 print("Total error: " + str(totalError))                        	     
 		print("learning rate:" + str(self.learningRate))
 		#eval fuer validation?
-                if (totalError - self.totalError).any >0: 
+                if any((totalError - self.totalError)>0): 
 			self.learningRate *= 0.8
 		#else:
 		#	self.learningRate *= 1-(i-1.0)/(self.epochs*50)
@@ -185,5 +185,5 @@ class MultilayerPerceptron(Classifier):
         # Once you can classify an instance, just use map for all of the test
         # set.
         print('test' + str(self.testSet.label))
-        return  list(map(self.classify, test))
+        return  list([test,list(map(self.classify, test))])
 

@@ -49,8 +49,8 @@ class Layer(object):
         if weights is None:
             time.sleep(1)
             rns = np.random.RandomState(int(time.time()))
-            self.weights = rns.uniform(-0.5, 0.5 , size=(nOut, nIn + 1)) # for SIN
-            #self.weights = rns.uniform(-1,  1, size=(nOut, nIn + 1)) # for XOR
+            self.weights = rns.uniform(-0.5, 0.5 , size=(nOut, nIn + 1)) # for MNIST und XOR
+            #self.weights = rns.uniform(-10,  10, size=(nOut, nIn + 1)) # for SIN
             #self.weights = np.ones((nOut, nIn + 1))/1000
         else:
             self.weights = weights
